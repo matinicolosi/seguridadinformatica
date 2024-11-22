@@ -11,10 +11,12 @@ import ar.edu.unq.entity.Item;
 @Service
 public class SearchService {
 	@Autowired
-    private JdbcTemplate jdbcTemplate;
+	private JdbcTemplate jdbcTemplate;
 
+	// SQL inyectable
+	// Item' OR 1=1; DELETE FROM Item WHERE 1=1 --
 	public List<Item> findByText(String text) {
-		String query = "SELECT i FROM Item i WHERE i.name LIKE '%" + text + "%'";
+		String query = "SELECT * FROM Item i WHERE i.name LIKE '%" + text + "%'";
 		return jdbcTemplate.query(query, (rs, rowNum) -> new Item(rs.getLong("id"), rs.getString("name")));
 	}
 }
